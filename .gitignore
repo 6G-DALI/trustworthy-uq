@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Packaging/build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+MANIFEST
+*.egg
+pip-wheel-metadata/
+
+# Test/coverage/cache
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# IDEs/editors
+.vscode/
+.idea/
+.spyproject/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local experiment/model artifacts
+mlartifacts/
+outputs/
+output/
+checkpoints/
+*.ckpt
+*.pth
+*.pt
+*.pkl
+
+# Local datasets
+data/

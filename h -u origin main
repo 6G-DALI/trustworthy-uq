@@ -1,0 +1,40 @@
+[33m5818e81[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Initial release of trustworthy-uq
+ .gitignore                                         |   51 [32m+[m
+ README.md                                          |   33 [32m+[m
+ examples/basic_workflow.py                         |   29 [32m+[m
+ pyproject.toml                                     |   21 [32m+[m
+ requirements.txt                                   |    6 [32m+[m
+ tests/test_conformal.py                            |    6 [32m+[m
+ trustworthy-uq_DOCUMENTATION.md                    | 2012 [32m++++++++++++++++++++[m
+ trustworthy_uq/__init__.py                         |   11 [32m+[m
+ trustworthy_uq/artifacts/__init__.py               |   13 [32m+[m
+ trustworthy_uq/artifacts/io.py                     |   67 [32m+[m
+ trustworthy_uq/calibration/__init__.py             |    0
+ trustworthy_uq/calibration/conformal.py            |   10 [32m+[m
+ trustworthy_uq/data/__init__.py                    |    0
+ .../data/__pycache__/__init__.cpython-311.pyc      |  Bin [31m0[m -> [32m198[m bytes
+ .../data/__pycache__/kul.cpython-311.pyc           |  Bin [31m0[m -> [32m347[m bytes
+ .../data/__pycache__/nomadic.cpython-311.pyc       |  Bin [31m0[m -> [32m12968[m bytes
+ trustworthy_uq/data/kul.py                         |    3 [32m+[m
+ trustworthy_uq/data/nomadic.py                     |  182 [32m++[m
+ trustworthy_uq/evaluation/__init__.py              |    0
+ .../__pycache__/__init__.cpython-311.pyc           |  Bin [31m0[m -> [32m204[m bytes
+ .../evaluation/__pycache__/metrics.cpython-311.pyc |  Bin [31m0[m -> [32m1159[m bytes
+ .../__pycache__/visualization.cpython-311.pyc      |  Bin [31m0[m -> [32m4609[m bytes
+ trustworthy_uq/evaluation/metrics.py               |   13 [32m+[m
+ trustworthy_uq/evaluation/visualization.py         |   74 [32m+[m
+ trustworthy_uq/localization/__init__.py            |    7 [32m+[m
+ .../__pycache__/__init__.cpython-311.pyc           |  Bin [31m0[m -> [32m586[m bytes
+ .../__pycache__/adaptive_scp.cpython-311.pyc       |  Bin [31m0[m -> [32m6412[m bytes
+ .../localization/__pycache__/adn.cpython-311.pyc   |  Bin [31m0[m -> [32m2653[m bytes
+ .../__pycache__/backbone.cpython-311.pyc           |  Bin [31m0[m -> [32m15384[m bytes
+ .../localization/__pycache__/cqr.cpython-311.pyc   |  Bin [31m0[m -> [32m10200[m bytes
+ .../__pycache__/pipeline.cpython-311.pyc           |  Bin [31m0[m -> [32m39031[m bytes
+ trustworthy_uq/localization/adaptive_scp.py        |   61 [32m+[m
+ trustworthy_uq/localization/adn.py                 |   35 [32m+[m
+ trustworthy_uq/localization/backbone.py            |  213 [32m+++[m
+ trustworthy_uq/localization/cqr.py                 |   96 [32m+[m
+ trustworthy_uq/localization/pipeline.py            |  491 [32m+++++[m
+ trustworthy_uq/tracking/__init__.py                |    0
+ trustworthy_uq/tracking/mlflow.py                  |    9 [32m+[m
+ 38 files changed, 3443 insertions(+)
