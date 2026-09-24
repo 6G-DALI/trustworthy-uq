@@ -48,4 +48,4 @@ checkpoints/
 *.pkl
 
 # Local datasets
-data/
+/data/
