@@ -1,49 +1,58 @@
 # trustworthy-uq --- MLOps User Documentation
 
-## 1. Installation
+## 1\. Installation
 
 `trustworthy-uq` is a Python package for the 2D CSI-localization
 uncertainty-quantification workflows used in the 6G-DALI work.
 
 The current package is designed for Python 3.10+.
 
-### 1.1 Recommended installation in a virtual environment
+### 1.1 Installation from GitHub
 
-Activate the environment that will be used by the MLOps workflow.
+The package can be installed directly from the 6G-DALI GitHub repository.
 
-On Windows/Anaconda:
+Install the package with:
 
-``` bash
-conda activate CSI-LocalizationConformalPred9
-```
+python -m pip install git+https://github.com/6G-DALI/trustworthy-uq.git
 
-Then navigate to the directory containing `pyproject.toml`:
 
-``` bash
-cd C:\path\to\trustworthy-uq
-```
 
-Install in editable mode:
+This installs the latest version available in the repository.
 
-``` bash
+To install a specific version or Git commit, the corresponding tag or commit can be specified, for example:
+
+python -m pip install git+https://github.com/6G-DALI/trustworthy-uq.git@v0.1.0
+
+
+
+After installation, the package can be imported normally:
+
+import trustworthy\_uq
+
+
+
+
+
+For development, where changes to the package source need to be reflected immediately, clone the repository and install it in editable mode:
+
+git clone https://github.com/6G-DALI/trustworthy-uq.git
+
+cd trustworthy-uq
+
 python -m pip install -e .
-```
 
-Editable installation is recommended during development because changes
-to the package source are immediately visible without reinstalling.
 
-For a normal, non-editable installation:
 
-``` bash
-python -m pip install .
-```
+This allows modifications to the local package source to be used without reinstalling the package.
+
+
 
 ### 1.2 Verify the installation
 
 Run:
 
 ``` bash
-python -c "import trustworthy_uq; print(trustworthy_uq.__version__)"
+python -c "import trustworthy\_uq; print(trustworthy\_uq.\_\_version\_\_)"
 ```
 
 Expected output for the current release:
@@ -55,34 +64,19 @@ Expected output for the current release:
 You can also check where Python loaded the package from:
 
 ``` bash
-python -c "import trustworthy_uq; print(trustworthy_uq.__file__)"
+python -c "import trustworthy\_uq; print(trustworthy\_uq.\_\_file\_\_)"
 ```
 
-### 1.3 Verify that the correct Python environment is being used
-
-If the package imports in a terminal but not in an IDE such as Spyder,
-check the interpreter used by the IDE:
-
-``` python
-import sys
-print(sys.executable)
-
-import trustworthy_uq
-print(trustworthy_uq.__file__)
-```
-
-The first path must point to the intended virtual/Conda environment.
-
-### 1.4 Dependencies
+### 1.3 Dependencies
 
 The package declares these dependencies:
 
--   NumPy
--   pandas
--   PyTorch
--   Lightning
--   Plotly
--   Kaleido
+* NumPy
+* pandas
+* PyTorch
+* Lightning
+* Plotly
+* Kaleido
 
 They are installed automatically by:
 
@@ -93,9 +87,9 @@ python -m pip install -e .
 Kaleido is used for static Plotly image export. HTML plots can still be
 produced without successful PNG export.
 
-------------------------------------------------------------------------
+\---
 
-# 2. What the package does
+# 2\. What the package does
 
 The package provides a ready-to-use workflow for adding uncertainty
 information to an existing 2D CSI localization model.
@@ -105,9 +99,9 @@ The current supported localization backbone is **AttentionDenseNet
 
 The package supports two uncertainty methods:
 
-1.  **CQR --- one-sided multi-SLA conformalized prediction**
-2.  **Adaptive SCP (aSCP) --- adaptive scale prediction followed by
-    conformal calibration**
+1. **CQR --- one-sided multi-SLA conformalized prediction**
+2. **Adaptive SCP (aSCP) --- adaptive scale prediction followed by
+conformal calibration**
 
 The package is intentionally focused on the current 2D localization use
 case rather than being a fully generic uncertainty-quantification
@@ -144,9 +138,9 @@ The UQ component produces a radius around that point. The radius is
 associated with a requested target coverage/SLA level such as 90%, 95%,
 or 99%.
 
-------------------------------------------------------------------------
+\---
 
-# 3. Important terminology for MLOps users
+# 3\. Important terminology for MLOps users
 
 The package exposes a small number of concepts that are useful when
 integrating it into an MLOps system.
@@ -176,7 +170,7 @@ A requested probability of covering the true position.
 Examples:
 
 ``` python
-[0.90, 0.95, 0.99]
+\[0.90, 0.95, 0.99]
 ```
 
 These correspond to:
@@ -215,7 +209,7 @@ uncertainty region.
 For example:
 
 ``` text
-true_coverage = 0.956
+true\_coverage = 0.956
 ```
 
 means approximately 95.6% of the evaluated samples were covered.
@@ -225,7 +219,7 @@ means approximately 95.6% of the evaluated samples were covered.
 The fraction not covered:
 
 ``` text
-breach_rate = 1 - true_coverage
+breach\_rate = 1 - true\_coverage
 ```
 
 For example:
@@ -235,20 +229,20 @@ coverage    = 0.956
 breach rate = 0.044
 ```
 
-------------------------------------------------------------------------
+\---
 
-# 4. Package structure
+# 4\. Package structure
 
 The main package structure is:
 
 ``` text
-trustworthy_uq/
+trustworthy\_uq/
 |
 +-- localization/
 |   +-- adn.py
 |   +-- backbone.py
 |   +-- cqr.py
-|   +-- adaptive_scp.py
+|   +-- adaptive\_scp.py
 |   +-- pipeline.py
 |
 +-- data/
@@ -268,36 +262,36 @@ trustworthy_uq/
 +-- tracking/
 |   +-- mlflow.py
 |
-+-- __init__.py
++-- \_\_init\_\_.py
 ```
 
 For normal MLOps integration, users generally only need:
 
 ``` python
-from trustworthy_uq import LocalizationUQ
+from trustworthy\_uq import LocalizationUQ
 ```
 
 The lower-level modules are available when more specialized control is
 required.
 
-------------------------------------------------------------------------
+\---
 
-# 5. Main entry point: LocalizationUQ
+# 5\. Main entry point: LocalizationUQ
 
 The main workflow class is:
 
 ``` python
-from trustworthy_uq import LocalizationUQ
+from trustworthy\_uq import LocalizationUQ
 ```
 
 Create an instance:
 
 ``` python
 uq = LocalizationUQ(
-    sla_levels=[0.90, 0.95, 0.99],
+    sla\_levels=\[0.90, 0.95, 0.99],
     seed=42,
-    batch_size=32,
-    num_workers=0,
+    batch\_size=32,
+    num\_workers=0,
 )
 ```
 
@@ -307,37 +301,40 @@ uq = LocalizationUQ(
 LocalizationUQ(
     backbone=None,
     device=None,
-    sla_levels=None,
+    sla\_levels=None,
     seed=42,
-    batch_size=32,
-    num_workers=0,
+    batch\_size=32,
+    num\_workers=0,
     split=(0.25, 0.45, 0.30),
 )
 ```
 
-  -----------------------------------------------------------------------
-  Parameter                           Meaning
-  ----------------------------------- -----------------------------------
-  `backbone`                          Optional already-created ADN model
+\---
 
-  `device`                            PyTorch device; automatically
-                                      selects CUDA when available
+Parameter                           Meaning
 
-  `sla_levels`                        SLA/coverage levels supported by
-                                      the workflow
+\---
 
-  `seed`                              Random seed used for dataset
-                                      splitting
+`backbone`                          Optional already-created ADN model
 
-  `batch_size`                        Default inference/training batch
-                                      size
+`device`                            PyTorch device; automatically
+selects CUDA when available
 
-  `num_workers`                       DataLoader workers
+`sla\_levels`                        SLA/coverage levels supported by
+the workflow
 
-  `split`                             Dataset proportions for
-                                      training/head, calibration, and
-                                      test
-  -----------------------------------------------------------------------
+`seed`                              Random seed used for dataset
+splitting
+
+`batch\_size`                        Default inference/training batch
+size
+
+`num\_workers`                       DataLoader workers
+
+`split`                             Dataset proportions for
+training/head, calibration, and
+test
+---
 
 The default split is:
 
@@ -347,11 +344,11 @@ The default split is:
 30% test
 ```
 
-The split is performed by `split_dataset()`.
+The split is performed by `split\_dataset()`.
 
-------------------------------------------------------------------------
+\---
 
-# 6. Dataset handling
+# 6\. Dataset handling
 
 The current package supports the Nomadic/KUL CSI localization dataset
 used by the experiments.
@@ -359,9 +356,9 @@ used by the experiments.
 ## 6.1 Single scenario
 
 ``` python
-dataset = uq.build_scenario_dataset(
-    data_dir="data/nomadic_dataset/ULA_lab_LoS",
-    scenario_id=0,
+dataset = uq.build\_scenario\_dataset(
+    data\_dir="data/nomadic\_dataset/ULA\_lab\_LoS",
+    scenario\_id=0,
 )
 ```
 
@@ -375,20 +372,20 @@ The default configuration uses:
 These can be changed:
 
 ``` python
-dataset = uq.build_scenario_dataset(
-    data_dir=DATA_DIR,
-    scenario_id=0,
-    num_users=4,
-    num_samples=240,
+dataset = uq.build\_scenario\_dataset(
+    data\_dir=DATA\_DIR,
+    scenario\_id=0,
+    num\_users=4,
+    num\_samples=240,
 )
 ```
 
 ## 6.2 Multiple scenarios
 
 ``` python
-dataset = uq.build_pooled_dataset(
-    data_dir=DATA_DIR,
-    scenario_ids=range(6),
+dataset = uq.build\_pooled\_dataset(
+    data\_dir=DATA\_DIR,
+    scenario\_ids=range(6),
 )
 ```
 
@@ -397,7 +394,7 @@ This creates one combined dataset from the requested scenarios.
 ## 6.3 Dataset splitting
 
 ``` python
-train_dataset, calibration_dataset, test_dataset = uq.split_dataset(dataset)
+train\_dataset, calibration\_dataset, test\_dataset = uq.split\_dataset(dataset)
 ```
 
 With the default split:
@@ -411,17 +408,17 @@ With the default split:
 The same split must be used consistently when
 training/calibrating/evaluating a workflow.
 
-------------------------------------------------------------------------
+\---
 
-# 7. ADN model workflows
+# 7\. ADN model workflows
 
 ADN is the localization backbone.
 
 ## 7.1 Load an existing ADN model
 
 ``` python
-uq.load_adn(
-    "path/to/best_model.ckpt"
+uq.load\_adn(
+    "path/to/best\_model.ckpt"
 )
 ```
 
@@ -441,14 +438,14 @@ Any compatible ADN checkpoint can be loaded.
 ## 7.2 Train a new ADN model
 
 ``` python
-result = uq.train_adn(
-    data_dir=DATA_DIR,
-    output_dir="output/adn",
-    batch_size=32,
-    num_workers=0,
-    num_users=4,
-    num_samples=240,
-    max_epochs=200,
+result = uq.train\_adn(
+    data\_dir=DATA\_DIR,
+    output\_dir="output/adn",
+    batch\_size=32,
+    num\_workers=0,
+    num\_users=4,
+    num\_samples=240,
+    max\_epochs=200,
     seed=42,
 )
 ```
@@ -459,9 +456,9 @@ checkpoint information.
 Typical fields:
 
 ``` python
-result["model"]
-result["checkpoint_path"]
-result["runtime_seconds"]
+result\["model"]
+result\["checkpoint\_path"]
+result\["runtime\_seconds"]
 ```
 
 The best checkpoint is saved by Lightning under the specified output
@@ -473,7 +470,7 @@ Example:
 output/
 └── adn/
     └── checkpoints/
-        └── best_adn_backbone.ckpt
+        └── best\_adn\_backbone.ckpt
 ```
 
 The package does not require an external model registry.
@@ -481,9 +478,9 @@ The package does not require an external model registry.
 The MLOps platform can copy/register the returned checkpoint path using
 its own artifact/model-management mechanism.
 
-------------------------------------------------------------------------
+\---
 
-# 8. CQR workflow
+# 8\. CQR workflow
 
 CQR is the main multi-SLA uncertainty workflow.
 
@@ -495,48 +492,48 @@ retrained for every SLA calibration.**
 For example:
 
 ``` python
-SLA_LEVELS = [0.90, 0.95, 0.99]
+SLA\_LEVELS = \[0.90, 0.95, 0.99]
 ```
 
 creates one CQR head containing three SLA-specific radius outputs.
 
 Calibration is then performed using the same trained head.
 
-------------------------------------------------------------------------
+\---
 
-# 9. Load an existing CQR head
+# 9\. Load an existing CQR head
 
 First load the ADN:
 
 ``` python
-uq.load_adn(ADN_CHECKPOINT)
+uq.load\_adn(ADN\_CHECKPOINT)
 ```
 
 Then load the CQR checkpoint:
 
 ``` python
-uq.load_cqr(
-    CQR_CHECKPOINT
+uq.load\_cqr(
+    CQR\_CHECKPOINT
 )
 ```
 
 The package obtains the configured SLA levels from the checkpoint.
 
-------------------------------------------------------------------------
+\---
 
-# 10. Train a new CQR head
+# 10\. Train a new CQR head
 
 A new CQR head can be trained on top of an already available ADN:
 
 ``` python
-result = uq.train_cqr(
-    train_dataset,
-    validation_dataset=calibration_dataset,
-    sla_levels=[0.90, 0.95, 0.99],
-    max_epochs=100,
+result = uq.train\_cqr(
+    train\_dataset,
+    validation\_dataset=calibration\_dataset,
+    sla\_levels=\[0.90, 0.95, 0.99],
+    max\_epochs=100,
     lr=1e-3,
-    weight_decay=1e-5,
-    output_dir="output/cqr",
+    weight\_decay=1e-5,
+    output\_dir="output/cqr",
 )
 ```
 
@@ -545,31 +542,31 @@ The backbone is frozen during CQR-head training.
 The returned dictionary contains:
 
 ``` python
-result["model"]
-result["checkpoint_path"]
-result["runtime_seconds"]
-result["sla_levels"]
+result\["model"]
+result\["checkpoint\_path"]
+result\["runtime\_seconds"]
+result\["sla\_levels"]
 ```
 
-When `output_dir` is supplied, the best checkpoint is saved under:
+When `output\_dir` is supplied, the best checkpoint is saved under:
 
 ``` text
 output/cqr/
 └── checkpoints/
-    └── best_cqr_head.ckpt
+    └── best\_cqr\_head.ckpt
 ```
 
-------------------------------------------------------------------------
+\---
 
-# 11. CQR calibration
+# 11\. CQR calibration
 
 After loading or training the CQR head:
 
 ``` python
-calibration_result = uq.calibrate_cqr(
-    calibration_dataset,
-    sla_levels=[0.90, 0.95, 0.99],
-    save_path="output/cqr/cqr_calibration.json",
+calibration\_result = uq.calibrate\_cqr(
+    calibration\_dataset,
+    sla\_levels=\[0.90, 0.95, 0.99],
+    save\_path="output/cqr/cqr\_calibration.json",
 )
 ```
 
@@ -579,13 +576,13 @@ requested SLA.
 The same trained CQR head can therefore be calibrated for:
 
 ``` python
-[0.90]
+\[0.90]
 ```
 
 or:
 
 ``` python
-[0.90, 0.95, 0.99]
+\[0.90, 0.95, 0.99]
 ```
 
 without retraining the head.
@@ -593,32 +590,32 @@ without retraining the head.
 The calibration artifact contains the resulting conformal adjustment
 values.
 
-------------------------------------------------------------------------
+\---
 
-# 12. aSCP workflow
+# 12\. aSCP workflow
 
 Adaptive SCP is a second supported uncertainty workflow.
 
 Operationally, it has two stages:
 
-1.  Train an adaptive scale model on top of the frozen ADN.
-2.  Apply conformal calibration to the normalized localization errors.
+1. Train an adaptive scale model on top of the frozen ADN.
+2. Apply conformal calibration to the normalized localization errors.
 
 The adaptive scale model estimates how large the expected localization
 error is for each input.
 
-------------------------------------------------------------------------
+\---
 
-# 13. Train a new aSCP model
+# 13\. Train a new aSCP model
 
 ``` python
-result = uq.train_adaptive_scp(
-    train_dataset,
-    validation_dataset=calibration_dataset,
-    max_epochs=60,
+result = uq.train\_adaptive\_scp(
+    train\_dataset,
+    validation\_dataset=calibration\_dataset,
+    max\_epochs=60,
     lr=1e-3,
-    weight_decay=1e-5,
-    output_dir="output/ascp",
+    weight\_decay=1e-5,
+    output\_dir="output/ascp",
 )
 ```
 
@@ -629,40 +626,40 @@ The trained scale model is saved as:
 ``` text
 output/ascp/
 └── checkpoints/
-    └── best_ascp_scale.ckpt
+    └── best\_ascp\_scale.ckpt
 ```
 
 The returned result contains:
 
 ``` python
-result["model"]
-result["checkpoint_path"]
-result["runtime_seconds"]
+result\["model"]
+result\["checkpoint\_path"]
+result\["runtime\_seconds"]
 ```
 
-------------------------------------------------------------------------
+\---
 
-# 14. Load an existing aSCP model
+# 14\. Load an existing aSCP model
 
 ``` python
-uq.load_ascp(
-    "path/to/best_ascp_scale.ckpt"
+uq.load\_ascp(
+    "path/to/best\_ascp\_scale.ckpt"
 )
 ```
 
 This requires a compatible ADN backbone to already be loaded.
 
-------------------------------------------------------------------------
+\---
 
-# 15. aSCP calibration
+# 15\. aSCP calibration
 
 After loading or training the scale model:
 
 ``` python
-result = uq.calibrate_adaptive_scp(
-    calibration_dataset,
-    sla_levels=[0.90, 0.95, 0.99],
-    save_path="output/ascp/ascp_calibration.json",
+result = uq.calibrate\_adaptive\_scp(
+    calibration\_dataset,
+    sla\_levels=\[0.90, 0.95, 0.99],
+    save\_path="output/ascp/ascp\_calibration.json",
 )
 ```
 
@@ -672,17 +669,17 @@ levels.
 The trained scale model itself is not retrained when changing the
 requested SLA level.
 
-------------------------------------------------------------------------
+\---
 
-# 16. Single-sample prediction
+# 16\. Single-sample prediction
 
 For a raw CSI sample:
 
 ``` python
 result = uq.predict(
     samples=X,
-    sla_levels=[0.90, 0.95, 0.99],
-    y_true=y,
+    sla\_levels=\[0.90, 0.95, 0.99],
+    y\_true=y,
     method="CQR",
 )
 ```
@@ -690,25 +687,25 @@ result = uq.predict(
 The result contains:
 
 ``` python
-result["method"]
-result["sla_levels"]
-result["point_prediction"]
-result["radius_mm"]
-result["error_mm"]
-result["covered"]
+result\["method"]
+result\["sla\_levels"]
+result\["point\_prediction"]
+result\["radius\_mm"]
+result\["error\_mm"]
+result\["covered"]
 ```
 
 For example:
 
 ``` text
-point_prediction
+point\_prediction
     -> ADN x,y prediction
 
-radius_mm
+radius\_mm
     -> uncertainty radius for each SLA
 
-error_mm
-    -> actual localization error, when y_true is supplied
+error\_mm
+    -> actual localization error, when y\_true is supplied
 
 covered
     -> whether the true position falls within each radius
@@ -719,24 +716,24 @@ The same API is used for aSCP:
 ``` python
 result = uq.predict(
     samples=X,
-    sla_levels=[0.90, 0.95, 0.99],
-    y_true=y,
+    sla\_levels=\[0.90, 0.95, 0.99],
+    y\_true=y,
     method="aSCP",
 )
 ```
 
-------------------------------------------------------------------------
+\---
 
-# 17. Test-set evaluation
+# 17\. Test-set evaluation
 
 For full test-set evaluation:
 
 ``` python
 metrics, predictions = uq.evaluate(
-    test_dataset,
-    sla_levels=[0.90, 0.95, 0.99],
+    test\_dataset,
+    sla\_levels=\[0.90, 0.95, 0.99],
     method="CQR",
-    output_dir="output/cqr_evaluation",
+    output\_dir="output/cqr\_evaluation",
 )
 ```
 
@@ -748,40 +745,40 @@ The second is the per-sample prediction DataFrame.
 
 For CQR, the metrics include:
 
--   method
--   target assurance
--   alpha
--   calibration size
--   test size
--   conformal adjustment (`qhat_mm`)
--   mean localization error
--   median localization error
--   90th-percentile localization error
--   95th-percentile localization error
--   true coverage
--   breach rate
--   mean base radius
--   mean final radius
+* method
+* target assurance
+* alpha
+* calibration size
+* test size
+* conformal adjustment (`qhat\_mm`)
+* mean localization error
+* median localization error
+* 90th-percentile localization error
+* 95th-percentile localization error
+* true coverage
+* breach rate
+* mean base radius
+* mean final radius
 
 For aSCP, the corresponding radius statistics are reported as adaptive
 interval-radius metrics.
 
-------------------------------------------------------------------------
+\---
 
-# 18. Understanding the CQR radius fields
+# 18\. Understanding the CQR radius fields
 
 CQR reports two radius values.
 
 ### Base radius
 
-`mean_base_radius_mm`
+`mean\_base\_radius\_mm`
 
 This is the mean radius directly produced by the learned CQR head before
 conformal calibration.
 
 ### Final radius
 
-`mean_final_radius_mm`
+`mean\_final\_radius\_mm`
 
 This is the radius after adding the conformal calibration adjustment.
 
@@ -801,16 +798,16 @@ covered.
 Therefore, when assessing the deployed UQ behavior, use:
 
 ``` text
-true_coverage
-breach_rate
-mean_final_radius_mm
+true\_coverage
+breach\_rate
+mean\_final\_radius\_mm
 ```
 
 rather than the base radius alone.
 
-------------------------------------------------------------------------
+\---
 
-# 19. Understanding aSCP radius fields
+# 19\. Understanding aSCP radius fields
 
 For aSCP, the learned model produces an adaptive scale for each sample.
 
@@ -829,11 +826,11 @@ This means that the radius can vary substantially between samples.
 The same SLA can therefore result in different radii for different CSI
 inputs.
 
-------------------------------------------------------------------------
+\---
 
-# 20. JSON artifacts
+# 20\. JSON artifacts
 
-When `output_dir` is supplied to `evaluate()` or `run_experiment()`, the
+When `output\_dir` is supplied to `evaluate()` or `run\_experiment()`, the
 package produces machine-readable JSON artifacts.
 
 These are intended to make integration with an MLOps GUI
@@ -842,7 +839,7 @@ straightforward.
 ## 20.1 Whole-test-set result
 
 ``` text
-uq_test_results.json
+uq\_test\_results.json
 ```
 
 This is the main compact UQ result for an experiment.
@@ -852,13 +849,13 @@ It contains:
 ``` text
 method
 task
-num_test_samples
+num\_test\_samples
 model
 calibration
-sla_results
+sla\_results
 ```
 
-The `sla_results` section contains one entry for each requested SLA.
+The `sla\_results` section contains one entry for each requested SLA.
 
 Typical information includes:
 
@@ -879,14 +876,14 @@ mean radius
 This file is the primary JSON artifact that an MLOps GUI should consume
 for experiment-level UQ metrics.
 
-------------------------------------------------------------------------
+\---
 
-# 21. Single-sample JSON artifact
+# 21\. Single-sample JSON artifact
 
 When single-sample analysis is enabled:
 
 ``` text
-uq_single_sample.json
+uq\_single\_sample.json
 ```
 
 is generated.
@@ -896,11 +893,11 @@ It contains:
 ``` text
 method
 task
-sample_index
+sample\_index
 model
-point_prediction
-true_position
-sla_results
+point\_prediction
+true\_position
+sla\_results
 ```
 
 Each SLA entry contains information such as:
@@ -928,61 +925,61 @@ Sample
   +-- SLA 99% -> radius / covered
 ```
 
-------------------------------------------------------------------------
+\---
 
-# 22. Calibration JSON artifact
+# 22\. Calibration JSON artifact
 
 CQR:
 
 ``` text
-cqr_calibration.json
+cqr\_calibration.json
 ```
 
 aSCP:
 
 ``` text
-ascp_calibration.json
+ascp\_calibration.json
 ```
 
 These files contain the conformal calibration parameters.
 
 They are useful for reproducing or loading calibration state.
 
-They are not intended to replace `uq_test_results.json` as the main
+They are not intended to replace `uq\_test\_results.json` as the main
 experiment summary.
 
 For an MLOps GUI, the recommended hierarchy is:
 
 ``` text
-uq_test_results.json
+uq\_test\_results.json
     -> main experiment metrics
 
-uq_single_sample.json
+uq\_single\_sample.json
     -> individual prediction/UQ information
 
-cqr_calibration.json
-ascp_calibration.json
+cqr\_calibration.json
+ascp\_calibration.json
     -> calibration state
 ```
 
-------------------------------------------------------------------------
+\---
 
-# 23. CSV artifacts
+# 23\. CSV artifacts
 
 Evaluation also creates detailed tabular artifacts.
 
 For CQR:
 
 ``` text
-cqr_metrics.csv
-cqr_predictions.csv
+cqr\_metrics.csv
+cqr\_predictions.csv
 ```
 
 For aSCP:
 
 ``` text
-adaptive_scp_metrics.csv
-adaptive_scp_predictions.csv
+adaptive\_scp\_metrics.csv
+adaptive\_scp\_predictions.csv
 ```
 
 The metrics CSV contains one row per SLA level.
@@ -999,40 +996,40 @@ JSON result.
 For example, the prediction CSV contains:
 
 ``` text
-pred_x
-pred_y
-true_x
-true_y
-euclidean_error_mm
-base_radius_mm
-qhat_mm
-final_radius_mm
+pred\_x
+pred\_y
+true\_x
+true\_y
+euclidean\_error\_mm
+base\_radius\_mm
+qhat\_mm
+final\_radius\_mm
 covered
 ```
 
 These files are useful for detailed analysis or downstream
 visualization.
 
-------------------------------------------------------------------------
+\---
 
-# 24. Plot artifacts
+# 24\. Plot artifacts
 
 The package generates Plotly visualizations.
 
 Typical outputs include:
 
 ``` text
-cqr_coverage_vs_target.html
-cqr_coverage_vs_target.png
+cqr\_coverage\_vs\_target.html
+cqr\_coverage\_vs\_target.png
 
-cqr_mean_radius_vs_target.html
-cqr_mean_radius_vs_target.png
+cqr\_mean\_radius\_vs\_target.html
+cqr\_mean\_radius\_vs\_target.png
 ```
 
 For aSCP the prefix is:
 
 ``` text
-adaptive_scp_
+adaptive\_scp\_
 ```
 
 The HTML versions are particularly suitable for direct embedding in a
@@ -1040,37 +1037,37 @@ web-based MLOps interface.
 
 The PNG files are useful for reports or static dashboards.
 
-------------------------------------------------------------------------
+\---
 
-# 25. Single-sample visualization
+# 25\. Single-sample visualization
 
 A single prediction can be visualized using:
 
 ``` python
-uq.plot_prediction(
-    prediction=[x_pred, y_pred],
-    true_position=[x_true, y_true],
+uq.plot\_prediction(
+    prediction=\[x\_pred, y\_pred],
+    true\_position=\[x\_true, y\_true],
     radius=radius,
-    sla_level=0.95,
+    sla\_level=0.95,
     method="CQR",
-    output_path="output/single_sample",
+    output\_path="output/single\_sample",
 )
 ```
 
 This produces a plot showing:
 
--   predicted position
--   true position
--   uncertainty circle
+* predicted position
+* true position
+* uncertainty circle
 
-Use `plot_prediction()` when the prediction has already been computed.
+Use `plot\_prediction()` when the prediction has already been computed.
 
-Use `plot_sample()` when raw CSI data must first be passed through the
+Use `plot\_sample()` when raw CSI data must first be passed through the
 model.
 
-------------------------------------------------------------------------
+\---
 
-# 26. Recommended MLOps integration
+# 26\. Recommended MLOps integration
 
 The package does not need to contain an HTTP/API server.
 
@@ -1109,11 +1106,11 @@ The API can then return:
 
 ``` json
 {
-  "sla_results": {
+  "sla\_results": {
     "0.95": {
-      "true_coverage": 0.956,
-      "breach_rate": 0.044,
-      "mean_final_radius_mm": 22.80
+      "true\_coverage": 0.956,
+      "breach\_rate": 0.044,
+      "mean\_final\_radius\_mm": 22.80
     }
   }
 }
@@ -1122,7 +1119,7 @@ The API can then return:
 Similarly, the API can return the contents of:
 
 ``` text
-uq_single_sample.json
+uq\_single\_sample.json
 ```
 
 for a GUI single-prediction page.
@@ -1130,9 +1127,9 @@ for a GUI single-prediction page.
 There is therefore no need to add web-server functionality to the
 package itself.
 
-------------------------------------------------------------------------
+\---
 
-# 27. Recommended API operations
+# 27\. Recommended API operations
 
 A simple MLOps service can expose operations conceptually equivalent to:
 
@@ -1187,7 +1184,7 @@ SLA levels
 Output:
 
 ``` text
-uq_test_results.json
+uq\_test\_results.json
 ```
 
 ### Single prediction
@@ -1220,14 +1217,14 @@ GET /uq/sample/{id}/plot
 The actual endpoint naming is outside the package and can be chosen by
 the MLOps team.
 
-------------------------------------------------------------------------
+\---
 
-# 28. One-call experiment workflow
+# 28\. One-call experiment workflow
 
 For reproducing the complete experiment workflow, use:
 
 ``` python
-uq.run_experiment(...)
+uq.run\_experiment(...)
 ```
 
 This is the easiest function for an experiment runner or MLOps
@@ -1236,58 +1233,58 @@ orchestration layer.
 Example using existing models:
 
 ``` python
-uq.run_experiment(
-    data_dir=DATA_DIR,
+uq.run\_experiment(
+    data\_dir=DATA\_DIR,
     method="CQR",
-    eval_mode="pooled",
-    scenario_ids=range(6),
-    adn_checkpoint=ADN_CHECKPOINT,
-    cqr_checkpoint=CQR_CHECKPOINT,
-    train_new_adn=False,
-    train_new_cqr=False,
-    train_new_ascp=False,
-    sla_levels=[0.90, 0.95, 0.99],
-    output_dir="output/experiment",
-    enable_single_sample=True,
-    single_sample_index=0,
-    single_sample_sla=0.95,
+    eval\_mode="pooled",
+    scenario\_ids=range(6),
+    adn\_checkpoint=ADN\_CHECKPOINT,
+    cqr\_checkpoint=CQR\_CHECKPOINT,
+    train\_new\_adn=False,
+    train\_new\_cqr=False,
+    train\_new\_ascp=False,
+    sla\_levels=\[0.90, 0.95, 0.99],
+    output\_dir="output/experiment",
+    enable\_single\_sample=True,
+    single\_sample\_index=0,
+    single\_sample\_sla=0.95,
 )
 ```
 
 For aSCP:
 
 ``` python
-uq.run_experiment(
-    data_dir=DATA_DIR,
+uq.run\_experiment(
+    data\_dir=DATA\_DIR,
     method="aSCP",
-    eval_mode="pooled",
-    scenario_ids=range(6),
-    adn_checkpoint=ADN_CHECKPOINT,
-    ascp_checkpoint=ASCP_CHECKPOINT,
-    train_new_adn=False,
-    train_new_ascp=False,
-    sla_levels=[0.90, 0.95, 0.99],
-    output_dir="output/experiment",
-    enable_single_sample=True,
+    eval\_mode="pooled",
+    scenario\_ids=range(6),
+    adn\_checkpoint=ADN\_CHECKPOINT,
+    ascp\_checkpoint=ASCP\_CHECKPOINT,
+    train\_new\_adn=False,
+    train\_new\_ascp=False,
+    sla\_levels=\[0.90, 0.95, 0.99],
+    output\_dir="output/experiment",
+    enable\_single\_sample=True,
 )
 ```
 
-------------------------------------------------------------------------
+\---
 
-# 29. Training from scratch through run_experiment
+# 29\. Training from scratch through run\_experiment
 
 The one-call workflow can also train models.
 
 ### New CQR head
 
 ``` python
-uq.run_experiment(
-    data_dir=DATA_DIR,
+uq.run\_experiment(
+    data\_dir=DATA\_DIR,
     method="CQR",
-    adn_checkpoint=ADN_CHECKPOINT,
-    train_new_cqr=True,
-    sla_levels=[0.90, 0.95, 0.99],
-    output_dir="output/new_cqr",
+    adn\_checkpoint=ADN\_CHECKPOINT,
+    train\_new\_cqr=True,
+    sla\_levels=\[0.90, 0.95, 0.99],
+    output\_dir="output/new\_cqr",
 )
 ```
 
@@ -1296,13 +1293,13 @@ The new CQR checkpoint is saved below the experiment output directory.
 ### New aSCP model
 
 ``` python
-uq.run_experiment(
-    data_dir=DATA_DIR,
+uq.run\_experiment(
+    data\_dir=DATA\_DIR,
     method="aSCP",
-    adn_checkpoint=ADN_CHECKPOINT,
-    train_new_ascp=True,
-    sla_levels=[0.90, 0.95, 0.99],
-    output_dir="output/new_ascp",
+    adn\_checkpoint=ADN\_CHECKPOINT,
+    train\_new\_ascp=True,
+    sla\_levels=\[0.90, 0.95, 0.99],
+    output\_dir="output/new\_ascp",
 )
 ```
 
@@ -1313,13 +1310,13 @@ The new aSCP checkpoint is saved below the experiment output directory.
 The workflow can also train an ADN:
 
 ``` python
-uq.run_experiment(
-    data_dir=DATA_DIR,
+uq.run\_experiment(
+    data\_dir=DATA\_DIR,
     method="CQR",
-    train_new_adn=True,
-    train_new_cqr=True,
-    sla_levels=[0.90, 0.95, 0.99],
-    output_dir="output/full_training",
+    train\_new\_adn=True,
+    train\_new\_cqr=True,
+    sla\_levels=\[0.90, 0.95, 0.99],
+    output\_dir="output/full\_training",
 )
 ```
 
@@ -1327,9 +1324,9 @@ The package returns the trained models/checkpoint paths through the
 underlying training functions, while the MLOps system can register or
 copy those checkpoints as required.
 
-------------------------------------------------------------------------
+\---
 
-# 30. Model artifact management
+# 30\. Model artifact management
 
 The package does not require a model registry.
 
@@ -1342,9 +1339,9 @@ Model registry / artifact store
         checkpoint
             |
             v
-trustworthy-uq.load_adn()
-trustworthy-uq.load_cqr()
-trustworthy-uq.load_ascp()
+trustworthy-uq.load\_adn()
+trustworthy-uq.load\_cqr()
+trustworthy-uq.load\_ascp()
 ```
 
 For newly trained models:
@@ -1361,31 +1358,31 @@ MLOps artifact/model registry
 
 This keeps model lifecycle management separate from the UQ package.
 
-------------------------------------------------------------------------
+\---
 
-# 31. MLflow integration
+# 31\. MLflow integration
 
 The package contains a small optional MLflow adapter:
 
 ``` python
-from trustworthy_uq.tracking.mlflow import log_evaluation
+from trustworthy\_uq.tracking.mlflow import log\_evaluation
 ```
 
 It can log:
 
--   metrics CSV
--   predictions CSV
--   generated figures
+* metrics CSV
+* predictions CSV
+* generated figures
 
 Example:
 
 ``` python
-log_evaluation(
+log\_evaluation(
     mlflow,
-    metrics_df=metrics,
-    metrics_csv=Path("output/cqr/cqr_metrics.csv"),
-    predictions_csv=Path("output/cqr/cqr_predictions.csv"),
-    figures_dir=Path("output/cqr"),
+    metrics\_df=metrics,
+    metrics\_csv=Path("output/cqr/cqr\_metrics.csv"),
+    predictions\_csv=Path("output/cqr/cqr\_predictions.csv"),
+    figures\_dir=Path("output/cqr"),
 )
 ```
 
@@ -1393,81 +1390,81 @@ The package does not require MLflow for its core operation.
 
 An MLOps environment can therefore use:
 
--   MLflow
--   another experiment tracker
--   a custom artifact store
--   direct filesystem/object-storage APIs
+* MLflow
+* another experiment tracker
+* a custom artifact store
+* direct filesystem/object-storage APIs
 
 without changing the UQ computation itself.
 
-------------------------------------------------------------------------
+\---
 
-# 32. Recommended production workflow
+# 32\. Recommended production workflow
 
 For an existing trained ADN and existing CQR model:
 
 ``` python
-from trustworthy_uq import LocalizationUQ
+from trustworthy\_uq import LocalizationUQ
 
 uq = LocalizationUQ(
-    sla_levels=[0.90, 0.95, 0.99]
+    sla\_levels=\[0.90, 0.95, 0.99]
 )
 
-uq.load_adn(ADN_CHECKPOINT)
+uq.load\_adn(ADN\_CHECKPOINT)
 
-uq.load_cqr(CQR_CHECKPOINT)
+uq.load\_cqr(CQR\_CHECKPOINT)
 
-dataset = uq.build_pooled_dataset(
-    DATA_DIR,
-    scenario_ids=range(6)
+dataset = uq.build\_pooled\_dataset(
+    DATA\_DIR,
+    scenario\_ids=range(6)
 )
 
-train, calibration, test = uq.split_dataset(dataset)
+train, calibration, test = uq.split\_dataset(dataset)
 
-uq.calibrate_cqr(
+uq.calibrate\_cqr(
     calibration,
-    sla_levels=[0.90, 0.95, 0.99],
-    save_path="output/cqr_calibration.json"
+    sla\_levels=\[0.90, 0.95, 0.99],
+    save\_path="output/cqr\_calibration.json"
 )
 
 metrics, predictions = uq.evaluate(
     test,
-    sla_levels=[0.90, 0.95, 0.99],
+    sla\_levels=\[0.90, 0.95, 0.99],
     method="CQR",
-    output_dir="output/cqr"
+    output\_dir="output/cqr"
 )
 ```
 
-For most MLOps applications, however, `run_experiment()` is simpler
+For most MLOps applications, however, `run\_experiment()` is simpler
 because it combines these steps.
 
-------------------------------------------------------------------------
+\---
 
-# 33. What an MLOps developer needs to provide
+# 33\. What an MLOps developer needs to provide
 
 For a standard inference/evaluation workflow, the MLOps system needs:
 
 ### Required
 
-1.  CSI dataset
-2.  compatible ADN checkpoint
-3.  compatible CQR or aSCP checkpoint
-4.  calibration data
-5.  requested SLA levels
+1. CSI dataset
+2. compatible ADN checkpoint
+3. compatible CQR or aSCP checkpoint
+4. calibration data
+5. requested SLA levels
 
 ### Optional
 
-6.  test dataset
-7.  output/artifact directory
-8.  MLflow or other tracking system
-9.  GUI/API layer
+6. test dataset
+7. output/artifact directory
+8. MLflow or other tracking system
+9. GUI/API layer
 
 The MLOps developer does not need to implement the conformal calibration
 mathematics.
 
-------------------------------------------------------------------------
+\---
 
-# 34. What the package returns versus what it saves
+# 34\. What the package returns versus what it saves
 
 There are two mechanisms.
 
@@ -1476,13 +1473,13 @@ There are two mechanisms.
 Functions such as:
 
 ``` python
-train_cqr()
-train_adaptive_scp()
-calibrate_cqr()
-calibrate_adaptive_scp()
+train\_cqr()
+train\_adaptive\_scp()
+calibrate\_cqr()
+calibrate\_adaptive\_scp()
 predict()
 evaluate()
-run_experiment()
+run\_experiment()
 ```
 
 return Python objects/dictionaries/DataFrames.
@@ -1505,21 +1502,21 @@ PNG plots
 This separation is useful for MLOps because the API can consume returned
 objects directly or retrieve persisted artifacts.
 
-------------------------------------------------------------------------
+\---
 
-# 35. Error handling and prerequisites
+# 35\. Error handling and prerequisites
 
 The package intentionally keeps exception handling relatively
 lightweight.
 
 Before calling the UQ functions, ensure:
 
-1.  The ADN model is loaded.
-2.  The required CQR/aSCP model is loaded or trained.
-3.  Calibration has been performed before `predict()` or `evaluate()`.
-4.  Requested SLA levels exist in the trained CQR model.
-5.  The input CSI tensor has the expected shape.
-6.  The dataset uses the expected Nomadic/KUL format.
+1. The ADN model is loaded.
+2. The required CQR/aSCP model is loaded or trained.
+3. Calibration has been performed before `predict()` or `evaluate()`.
+4. Requested SLA levels exist in the trained CQR model.
+5. The input CSI tensor has the expected shape.
+6. The dataset uses the expected Nomadic/KUL format.
 
 A common sequence is:
 
@@ -1533,11 +1530,11 @@ calibrate
 predict/evaluate
 ```
 
-------------------------------------------------------------------------
+\---
 
-# 36. Common issues
+# 36\. Common issues
 
-## `ModuleNotFoundError: trustworthy_uq`
+## `ModuleNotFoundError: trustworthy\_uq`
 
 Usually the IDE is using a different Python interpreter.
 
@@ -1551,8 +1548,8 @@ print(sys.executable)
 Then:
 
 ``` python
-import trustworthy_uq
-print(trustworthy_uq.__file__)
+import trustworthy\_uq
+print(trustworthy\_uq.\_\_file\_\_)
 ```
 
 If necessary, reinstall into that interpreter:
@@ -1575,7 +1572,7 @@ and verify:
 
 ``` python
 import lightning
-print(lightning.__version__)
+print(lightning.\_\_version\_\_)
 ```
 
 ## Missing checkpoint
@@ -1597,13 +1594,13 @@ CQR head was trained.
 For example, if the head was trained for:
 
 ``` python
-[0.90, 0.95, 0.99]
+\[0.90, 0.95, 0.99]
 ```
 
 requesting:
 
 ``` python
-[0.975]
+\[0.975]
 ```
 
 is not supported by that checkpoint.
@@ -1618,214 +1615,214 @@ needed.
 The usual sequence is:
 
 ``` python
-uq.calibrate_cqr(...)
+uq.calibrate\_cqr(...)
 uq.predict(...)
 ```
 
 or:
 
 ``` python
-uq.calibrate_adaptive_scp(...)
+uq.calibrate\_adaptive\_scp(...)
 uq.predict(..., method="aSCP")
 ```
 
-------------------------------------------------------------------------
+\---
 
-# 37. Minimal CQR example
+# 37\. Minimal CQR example
 
 ``` python
-from trustworthy_uq import LocalizationUQ
+from trustworthy\_uq import LocalizationUQ
 
-DATA_DIR = "data/nomadic_dataset/ULA_lab_LoS"
+DATA\_DIR = "data/nomadic\_dataset/ULA\_lab\_LoS"
 
 uq = LocalizationUQ(
-    sla_levels=[0.90, 0.95, 0.99]
+    sla\_levels=\[0.90, 0.95, 0.99]
 )
 
-uq.load_adn("best_model.ckpt")
-uq.load_cqr("best_cqr_head.ckpt")
+uq.load\_adn("best\_model.ckpt")
+uq.load\_cqr("best\_cqr\_head.ckpt")
 
-dataset = uq.build_pooled_dataset(
-    DATA_DIR,
-    scenario_ids=range(6)
+dataset = uq.build\_pooled\_dataset(
+    DATA\_DIR,
+    scenario\_ids=range(6)
 )
 
-train, calibration, test = uq.split_dataset(dataset)
+train, calibration, test = uq.split\_dataset(dataset)
 
-uq.calibrate_cqr(
+uq.calibrate\_cqr(
     calibration,
-    sla_levels=[0.90, 0.95, 0.99],
-    save_path="output/cqr_calibration.json"
+    sla\_levels=\[0.90, 0.95, 0.99],
+    save\_path="output/cqr\_calibration.json"
 )
 
 metrics, predictions = uq.evaluate(
     test,
-    sla_levels=[0.90, 0.95, 0.99],
+    sla\_levels=\[0.90, 0.95, 0.99],
     method="CQR",
-    output_dir="output/cqr"
+    output\_dir="output/cqr"
 )
 
 print(metrics)
 ```
 
-------------------------------------------------------------------------
+\---
 
-# 38. Minimal aSCP example
+# 38\. Minimal aSCP example
 
 ``` python
-from trustworthy_uq import LocalizationUQ
+from trustworthy\_uq import LocalizationUQ
 
-DATA_DIR = "data/nomadic_dataset/ULA_lab_LoS"
+DATA\_DIR = "data/nomadic\_dataset/ULA\_lab\_LoS"
 
 uq = LocalizationUQ(
-    sla_levels=[0.90, 0.95, 0.99]
+    sla\_levels=\[0.90, 0.95, 0.99]
 )
 
-uq.load_adn("best_model.ckpt")
-uq.load_ascp("best_ascp_scale.ckpt")
+uq.load\_adn("best\_model.ckpt")
+uq.load\_ascp("best\_ascp\_scale.ckpt")
 
-dataset = uq.build_pooled_dataset(
-    DATA_DIR,
-    scenario_ids=range(6)
+dataset = uq.build\_pooled\_dataset(
+    DATA\_DIR,
+    scenario\_ids=range(6)
 )
 
-train, calibration, test = uq.split_dataset(dataset)
+train, calibration, test = uq.split\_dataset(dataset)
 
-uq.calibrate_adaptive_scp(
+uq.calibrate\_adaptive\_scp(
     calibration,
-    sla_levels=[0.90, 0.95, 0.99],
-    save_path="output/ascp_calibration.json"
+    sla\_levels=\[0.90, 0.95, 0.99],
+    save\_path="output/ascp\_calibration.json"
 )
 
 metrics, predictions = uq.evaluate(
     test,
-    sla_levels=[0.90, 0.95, 0.99],
+    sla\_levels=\[0.90, 0.95, 0.99],
     method="aSCP",
-    output_dir="output/ascp"
+    output\_dir="output/ascp"
 )
 
 print(metrics)
 ```
 
-------------------------------------------------------------------------
+\---
 
-# 39. Minimal MLOps-oriented workflow
+# 39\. Minimal MLOps-oriented workflow
 
 For an MLOps service, the core sequence can be reduced to:
 
 ``` python
 uq = LocalizationUQ(
-    sla_levels=[0.90, 0.95, 0.99]
+    sla\_levels=\[0.90, 0.95, 0.99]
 )
 
-uq.load_adn(adn_checkpoint)
+uq.load\_adn(adn\_checkpoint)
 
-uq.load_cqr(cqr_checkpoint)
+uq.load\_cqr(cqr\_checkpoint)
 
-metrics, predictions = uq.run_experiment(
-    data_dir=data_dir,
+metrics, predictions = uq.run\_experiment(
+    data\_dir=data\_dir,
     method="CQR",
-    eval_mode="pooled",
-    scenario_ids=range(6),
-    adn_checkpoint=adn_checkpoint,
-    cqr_checkpoint=cqr_checkpoint,
-    sla_levels=[0.90, 0.95, 0.99],
-    output_dir=output_dir,
-    enable_single_sample=True,
+    eval\_mode="pooled",
+    scenario\_ids=range(6),
+    adn\_checkpoint=adn\_checkpoint,
+    cqr\_checkpoint=cqr\_checkpoint,
+    sla\_levels=\[0.90, 0.95, 0.99],
+    output\_dir=output\_dir,
+    enable\_single\_sample=True,
 )
 ```
 
 The resulting output directory contains the main machine-readable
 artifacts that can be exposed through the MLOps API.
 
-------------------------------------------------------------------------
+\---
 
-# 40. API reference
+# 40\. API reference
 
 ## `LocalizationUQ`
 
 ### Data
 
 ``` python
-build_scenario_dataset(
-    data_dir,
-    scenario_id,
-    num_users=4,
-    num_samples=240
+build\_scenario\_dataset(
+    data\_dir,
+    scenario\_id,
+    num\_users=4,
+    num\_samples=240
 )
 ```
 
 ``` python
-build_pooled_dataset(
-    data_dir,
-    scenario_ids=range(6),
-    num_users=4,
-    num_samples=240
+build\_pooled\_dataset(
+    data\_dir,
+    scenario\_ids=range(6),
+    num\_users=4,
+    num\_samples=240
 )
 ```
 
 ``` python
-split_dataset(dataset)
+split\_dataset(dataset)
 ```
 
 ### ADN
 
 ``` python
-load_adn(checkpoint_path)
+load\_adn(checkpoint\_path)
 ```
 
 ``` python
-train_adn(data_dir, **kwargs)
+train\_adn(data\_dir, \*\*kwargs)
 ```
 
 ### CQR
 
 ``` python
-train_cqr(
-    train_dataset,
-    validation_dataset=None,
-    sla_levels=None,
-    max_epochs=100,
+train\_cqr(
+    train\_dataset,
+    validation\_dataset=None,
+    sla\_levels=None,
+    max\_epochs=100,
     lr=1e-3,
-    weight_decay=1e-5,
-    output_dir=None
+    weight\_decay=1e-5,
+    output\_dir=None
 )
 ```
 
 ``` python
-load_cqr(checkpoint_path)
+load\_cqr(checkpoint\_path)
 ```
 
 ``` python
-calibrate_cqr(
-    calibration_dataset,
-    sla_levels=None,
-    save_path=None
+calibrate\_cqr(
+    calibration\_dataset,
+    sla\_levels=None,
+    save\_path=None
 )
 ```
 
 ### aSCP
 
 ``` python
-train_adaptive_scp(
-    train_dataset,
-    validation_dataset=None,
-    max_epochs=60,
+train\_adaptive\_scp(
+    train\_dataset,
+    validation\_dataset=None,
+    max\_epochs=60,
     lr=1e-3,
-    weight_decay=1e-5,
-    output_dir=None
+    weight\_decay=1e-5,
+    output\_dir=None
 )
 ```
 
 ``` python
-load_ascp(checkpoint_path)
+load\_ascp(checkpoint\_path)
 ```
 
 ``` python
-calibrate_adaptive_scp(
-    calibration_dataset,
-    sla_levels=None,
-    save_path=None
+calibrate\_adaptive\_scp(
+    calibration\_dataset,
+    sla\_levels=None,
+    save\_path=None
 )
 ```
 
@@ -1834,10 +1831,10 @@ calibrate_adaptive_scp(
 ``` python
 predict(
     samples,
-    sla_levels=None,
-    y_true=None,
+    sla\_levels=None,
+    y\_true=None,
     method="CQR",
-    output_path=None
+    output\_path=None
 )
 ```
 
@@ -1845,64 +1842,64 @@ predict(
 
 ``` python
 evaluate(
-    test_dataset,
-    sla_levels=None,
+    test\_dataset,
+    sla\_levels=None,
     method="CQR",
-    output_dir=None
+    output\_dir=None
 )
 ```
 
 ### Visualization
 
 ``` python
-plot_sample(
+plot\_sample(
     samples,
-    y_true,
-    sample_index=0,
-    sla_level=0.95,
+    y\_true,
+    sample\_index=0,
+    sla\_level=0.95,
     method="CQR",
-    output_path=None
+    output\_path=None
 )
 ```
 
 ``` python
-plot_prediction(
+plot\_prediction(
     prediction,
-    true_position,
+    true\_position,
     radius,
-    sla_level=0.95,
+    sla\_level=0.95,
     method="CQR",
-    output_path=None
+    output\_path=None
 )
 ```
 
 ### Complete workflow
 
 ``` python
-run_experiment(
-    data_dir,
+run\_experiment(
+    data\_dir,
     method="CQR",
-    eval_mode="pooled",
-    scenario_id=0,
-    scenario_ids=range(6),
-    adn_checkpoint=None,
-    cqr_checkpoint=None,
-    ascp_checkpoint=None,
-    train_new_adn=False,
-    train_new_cqr=False,
-    train_new_ascp=False,
-    sla_levels=None,
-    output_dir="output/unified_conformal_experiments",
-    enable_single_sample=True,
-    single_sample_index=0,
-    single_sample_sla=0.95,
-    **train_kwargs
+    eval\_mode="pooled",
+    scenario\_id=0,
+    scenario\_ids=range(6),
+    adn\_checkpoint=None,
+    cqr\_checkpoint=None,
+    ascp\_checkpoint=None,
+    train\_new\_adn=False,
+    train\_new\_cqr=False,
+    train\_new\_ascp=False,
+    sla\_levels=None,
+    output\_dir="output/unified\_conformal\_experiments",
+    enable\_single\_sample=True,
+    single\_sample\_index=0,
+    single\_sample\_sla=0.95,
+    \*\*train\_kwargs
 )
 ```
 
-------------------------------------------------------------------------
+\---
 
-# 41. Recommended artifact contract for the MLOps GUI
+# 41\. Recommended artifact contract for the MLOps GUI
 
 For integration, the simplest contract is:
 
@@ -1918,9 +1915,9 @@ SLA levels
 
 Output
 ------
-uq_test_results.json
-uq_single_sample.json
-cqr_calibration.json / ascp_calibration.json
+uq\_test\_results.json
+uq\_single\_sample.json
+cqr\_calibration.json / ascp\_calibration.json
 metrics CSV
 predictions CSV
 HTML/PNG plots
@@ -1948,22 +1945,22 @@ radius statistics
 This is the intended abstraction boundary between the UQ implementation
 and the MLOps layer.
 
-------------------------------------------------------------------------
+\---
 
-# 42. Current scope
+# 42\. Current scope
 
 The current release is intentionally focused on:
 
--   2D CSI localization
--   Nomadic/KUL dataset workflow
--   ADN localization backbone
--   one-sided multi-SLA CQR
--   adaptive SCP with a learned scale model
--   conformal calibration
--   test-set coverage and breach evaluation
--   single-sample UQ
--   machine-readable artifacts
--   optional MLflow artifact logging
+* 2D CSI localization
+* Nomadic/KUL dataset workflow
+* ADN localization backbone
+* one-sided multi-SLA CQR
+* adaptive SCP with a learned scale model
+* conformal calibration
+* test-set coverage and breach evaluation
+* single-sample UQ
+* machine-readable artifacts
+* optional MLflow artifact logging
 
 It is not currently intended as a generic framework for arbitrary
 regression models, arbitrary datasets, or arbitrary UQ algorithms.
@@ -1971,9 +1968,9 @@ regression models, arbitrary datasets, or arbitrary UQ algorithms.
 The package structure, however, is designed so additional UQ methods and
 classification workflows can be added later.
 
-------------------------------------------------------------------------
+\---
 
-# 43. Operational summary
+# 43\. Operational summary
 
 For an MLOps user, the complete lifecycle is:
 
@@ -1997,16 +1994,17 @@ For an MLOps user, the complete lifecycle is:
 
 The MLOps layer is responsible for:
 
--   model/data artifact storage
--   authentication and API endpoints
--   experiment tracking
--   GUI presentation
--   model lifecycle management
+* model/data artifact storage
+* authentication and API endpoints
+* experiment tracking
+* GUI presentation
+* model lifecycle management
 
 `trustworthy-uq` is responsible for:
 
--   loading/training the supported models
--   UQ calibration
--   UQ prediction
--   coverage/breach evaluation
--   UQ-specific artifacts and visualizations
+* loading/training the supported models
+* UQ calibration
+* UQ prediction
+* coverage/breach evaluation
+* UQ-specific artifacts and visualizations
+
